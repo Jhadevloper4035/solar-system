@@ -7,6 +7,10 @@ on:
       - main
       - feature/*
 
+
+env:
+  MONGO_URI: ${{ secrets.MONGO_URI }}
+
 jobs:
     unit-tests:
         runs-on: ubuntu-latest
