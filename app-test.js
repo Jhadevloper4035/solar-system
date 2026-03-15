@@ -85,7 +85,7 @@ describe('Planets API Suite', () => {
               });
         });
 
-        it('it should fetch a planet named Satrun', (done) => {
+        it('it should fetch a planet named Saturn', (done) => {
             let payload = {
                 id: 6
             }
@@ -140,7 +140,7 @@ describe('Planets API Suite', () => {
         //       .end((err, res) => {
         //             res.should.have.status(200);
         //             res.body.should.have.property('id').eql(9);
-        //             res.body.should.have.property('name').eql('Sun');
+        //             res.body.should.have.property('name').eql('Pluto');
         //         done();
         //       });
         // });

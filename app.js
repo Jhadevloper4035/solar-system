@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require('cors')
 
+require('dotenv').config()
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/')));
@@ -20,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI, {
     if (err) {
         console.log("error!! " + err)
     } else {
-      //  console.log("MongoDB Connection Successful")
+      console.log("MongoDB Connection Successful")
     }
 })
 
@@ -39,13 +40,13 @@ var planetModel = mongoose.model('planets', dataSchema);
 
 
 app.post('/planet',   function(req, res) {
-   // console.log("Received Planet ID " + req.body.id)
+   console.log("Received Planet ID " + req.body.id)
     planetModel.findOne({
         id: req.body.id
     }, function(err, planetData) {
         if (err) {
-            alert("Ooops, We only have 9 planets and a sun. Select a number from 0 - 9")
-            res.send("Error in Planet Data")
+            console.log("Error fetching planet data: " + err)
+            res.status(400).send({ error: "Error in Planet Data. Select a number from 0 - 9" })
         } else {
             res.send(planetData);
         }
