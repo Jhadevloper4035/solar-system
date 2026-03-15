@@ -1,7 +1,7 @@
 name: Solor System yaml
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
   push:
     branches:
       - main
