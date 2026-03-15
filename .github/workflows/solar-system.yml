@@ -13,15 +13,24 @@ env:
 
 jobs:
     unit-tests:
-        runs-on: ubuntu-latest
+        strategy:
+          fail-fast: true
+          max-parallel: 2
+          matrix:
+            os-version: [18, 19, 20]
+            os: [ubuntu-latest , macos-latest]
+            exclude:
+              - os: macos-latest
+                os-version: 18
+        runs-on: ${{ matrix.os }}
         steps: 
             - name: Checkout code
               uses: actions/checkout@v3
 
-            - name: Set up Node.js
+            - name: Set up Nodejs ${{ matrix.os-version }}
               uses: actions/setup-node@v6
               with:
-                node-version: 20
+                node-version: ${{ matrix.os-version }}
 
             - name: Install dependencies
               run: npm install
