@@ -5,3 +5,14 @@ solar-system.png
 coverage
 test-results.xml
 .env
+
+
+.section-title h2::after {
+
+display: none !important;
+}
+
+.section-title h2::before {
+
+display: none !important;
+}
