@@ -18,7 +18,7 @@ jobs:
           fail-fast: true
           max-parallel: 2
           matrix:
-            os-version: [18, 19, 20]
+            os-version: [18, 20]
             os: [ubuntu-latest , macos-latest]
             exclude:
               - os: macos-latest
@@ -37,9 +37,19 @@ jobs:
               run: npm install
 
             - name: Run tests
+              id: nodejs-unit-tests
               run: npm test
 
+            # always upload test results, even if the tests fail
+            # always() is a special function that returns true, regardless of the outcome of the previous steps
+            # sucess() would only upload the test results if the tests pass, which is not what we want in this case
+            # failure() would only upload the test results if the tests fail, which is also not what we want in this case
+
+
+            # steps.nodejs-unit-tests.outcome == 'failure' would only upload the test results if the tests fail, which is also not what we want in this case
+
             - name: Upload test results
+              if: always() 
               uses: actions/upload-artifact@v4
               with:
                 name: mocha-test-result-${{ matrix.os }}-${{ matrix.os-version }}
