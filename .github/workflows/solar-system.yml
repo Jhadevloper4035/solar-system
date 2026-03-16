@@ -106,7 +106,7 @@ jobs:
                 username: ${{ secrets.DOCKER_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_TOKEN  }}
 
-            - name: Build and push
+            - name: Build Docker image
               uses: docker/build-push-action@v6
               with:
                 context: .
@@ -124,6 +124,13 @@ jobs:
                 sleep 10 
                 docker ps
                 curl -f http://localhost:3000/live | grep "live" || exit 1
+
+            - name: push Docker image
+              uses: docker/build-push-action@v6
+              with:
+                context: .
+                push: true
+                tags: ${{ secrets.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
 
            
      
