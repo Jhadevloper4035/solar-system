@@ -8,10 +8,6 @@ RUN npm install
 
 COPY . .
 
-ENV MONGO_URI=mongodb+srv://jhanavrojlookout:sVvfJfxKxT3gnApO@learning.kudymrn.mongodb.net/?appName=learning
-ENV MONGO_USERNAME=jhanavrojlookout
-ENV MONGO_PASSWORD=sVvfJfxKxT3gnApO
-
 EXPOSE 3000
 
 CMD [ "npm", "start" ]
