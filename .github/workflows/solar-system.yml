@@ -33,6 +33,14 @@ jobs:
               with:
                 node-version: ${{ matrix.os-version }}
 
+            
+            - name: Cache node modules
+              uses: actions/cache@v3
+              with:
+                path: node_modules
+                key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+
             - name: Install dependencies
               run: npm install
 
@@ -40,20 +48,19 @@ jobs:
               id: nodejs-unit-tests
               run: npm test
 
-            # always upload test results, even if the tests fail
-            # always() is a special function that returns true, regardless of the outcome of the previous steps
-            # sucess() would only upload the test results if the tests pass, which is not what we want in this case
-            # failure() would only upload the test results if the tests fail, which is also not what we want in this case
-
-
-            # steps.nodejs-unit-tests.outcome == 'failure' would only upload the test results if the tests fail, which is also not what we want in this case
-
             - name: Upload test results
               if: always() 
               uses: actions/upload-artifact@v4
               with:
                 name: mocha-test-result-${{ matrix.os }}-${{ matrix.os-version }}
                 path: test-results.xml
+
+
+            # always upload test results, even if the tests fail
+            # always() is a special function that returns true, regardless of the outcome of the previous steps
+            # sucess() would only upload the test results if the tests pass, which is not what we want in this case
+            # failure() would only upload the test results if the tests fail, which is also not what we want in this case
+            # steps.nodejs-unit-tests.outcome == 'failure' would only upload the test results if the tests fail, which is also not what we want in this case
 
     code-coverage:
         runs-on: ubuntu-latest
@@ -66,6 +73,13 @@ jobs:
               uses: actions/setup-node@v6
               with:
                     node-version: 18
+
+
+            - name: Cache node modules
+              uses: actions/cache@v3
+              with:
+                path: node_modules
+                key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
             - name: Install dependencies
               run: npm install
